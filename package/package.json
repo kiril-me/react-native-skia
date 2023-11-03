@@ -124,5 +124,10 @@
       ],
       "typescript"
     ]
-  }
+  },
+"codegenConfig": {
+  "name": "rnskia",
+  "type": "components",
+  "jsSrcsDir": "./src/fabric"
+}
 }

@@ -4,6 +4,8 @@ require "json"
 
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
 
+fabric_enabled = ENV['RCT_NEW_ARCH_ENABLED'] == '1'
+
 Pod::Spec.new do |s|
   s.name         = "react-native-skia"
   s.version      = package["version"]
@@ -21,31 +23,21 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/shopify/react-native-skia/react-native-skia.git", :tag => "#{s.version}" }
 
   s.requires_arc = true
-  s.pod_target_xcconfig = {
-    'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) SK_METAL=1 SK_GANESH=1',
-    'CLANG_CXX_LANGUAGE_STANDARD' => 'c++17',
-    'DEFINES_MODULE' => 'YES',
-    "HEADER_SEARCH_PATHS" => '"$(PODS_TARGET_SRCROOT)/cpp/"/**'
-  }
 
   s.frameworks = 'GLKit', 'MetalKit'
 
-  s.ios.vendored_frameworks = [
-    'libs/ios/libskia.xcframework', 
-    'libs/ios/libsvg.xcframework', 
-    'libs/ios/libskshaper.xcframework',
-    'libs/ios/libskparagraph.xcframework',
-    'libs/ios/libskunicode.xcframework',
-  ]
+  install_modules_dependencies(s)
 
-  # All iOS cpp/h files
-  s.source_files = [
-    "ios/**/*.{h,c,cc,cpp,m,mm,swift}",  
-    "cpp/**/*.{h,cpp}"
-  ]
+  # s.ios.vendored_frameworks = [
+  #   'libs/ios/libskia.xcframework', 
+  #   'libs/ios/libsvg.xcframework', 
+  #   'libs/ios/libskshaper.xcframework',
+  #   'libs/ios/libskparagraph.xcframework',
+  #   'libs/ios/libskunicode.xcframework',
+  # ]
 
-  s.dependency "React"
-  s.dependency "React-callinvoker"
-  s.dependency "React-Core"
+  # s.dependency "React"
+  # s.dependency "React-callinvoker"
+  # s.dependency "React-Core"
 end
 
